@@ -12,6 +12,5 @@
 /.phpstorm.meta.php
 /.DS_Store
 /public/devtool/
-/test/.phpstorm.meta.php
-/test/.env
+/.idea/*
 
