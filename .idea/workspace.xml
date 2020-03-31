@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec377ad3-7277-4945-b150-edaf75ce6c1e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Model/Logic/CompanyLogic.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Model/Logic/CompanyLogic.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +151,9 @@
       <updated>1585234388377</updated>
       <workItem from="1585234389797" duration="4893000" />
       <workItem from="1585318366072" duration="5992000" />
-      <workItem from="1585576358948" duration="191000" />
+      <workItem from="1585576358948" duration="1034000" />
+      <workItem from="1585582719272" duration="1195000" />
+      <workItem from="1585666105287" duration="789000" />
     </task>
     <servers />
   </component>

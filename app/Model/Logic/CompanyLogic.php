@@ -185,6 +185,7 @@ class CompanyLogic
             'intro_cn' => $data['intro_cn'] ?? '',
             'intro_en' => $data['intro_en'] ?? '',
             'home_page' => $data['home_page'] ?? '',
+            'view_count' => $data['view_count'] ?? 0,
             'created_at' => (int)($data['created_at'] ?? 0),
             'updated_at' => (int)($data['updated_at'] ?? 0),
             'tag_ids' => $data['tag_ids'] ?? [],
