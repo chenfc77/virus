@@ -122,7 +122,7 @@ class CompanyLogic
         }
         $result['tag_ids'] = DB::table('company_tag_relation')->where(['company_id' => $result['id']])->pluck('tag_id')->toArray();
 
-        DB::table('view_log')->insert(['company_id' => $id, 'ip' => \App\Helper\HttpHelper::getRemoteAddr()]);
+        DB::table('view_log')->insert(['company_id' => $id, 'ip' => \App\Helper\HttpHelper::getRemoteAddr(),'created_at'=>time()]);
         DB::table('company')->where(['id' => $id])->increment('view_count');
         return $this->format($result);
     }
