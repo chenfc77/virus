@@ -196,8 +196,8 @@ class CompanyLogic
             'status' => $data['status'] ?? 0,
             'created_at' => (int)($data['created_at'] ?? 0),
             'updated_at' => (int)($data['updated_at'] ?? 0),
-            'category_ids' => $categoryRows,
-            'tag_ids' => $tagRows,
+            'categorys' => $categoryRows,
+            'tags' => $tagRows,
         ];
 
         return $result;
