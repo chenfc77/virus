@@ -71,8 +71,11 @@ class CompanyLogic
             'where_row' => $whereRow,
             'order_by' => ['id' => 'desc'],
         ];
-        $result['list'] = $this->companyDao->getList($queryParams);
+        $rows = $this->companyDao->getList($queryParams);
         $result['total'] = $this->companyDao->total($queryParams);
+        foreach ($rows as $row) {
+            $result['list'][] = $this->format($row);
+        }
         return $result;
     }
 
@@ -84,6 +87,7 @@ class CompanyLogic
             'intro_cn' => $params['intro_cn'] ?? '',
             'intro_en' => $params['intro_en'] ?? '',
             'home_page' => $params['home_page'],
+            'status' => $params['status'] ?? 0,
             'created_at' => time(),
         ];
 
@@ -120,9 +124,8 @@ class CompanyLogic
         if (!$result) {
             throw new \Exception('company_not_exist', 404);
         }
-        $result['tag_ids'] = DB::table('company_tag_relation')->where(['company_id' => $result['id']])->pluck('tag_id')->toArray();
 
-        DB::table('view_log')->insert(['company_id' => $id, 'ip' => \App\Helper\HttpHelper::getRemoteAddr(),'created_at'=>time()]);
+        DB::table('view_log')->insert(['company_id' => $id, 'ip' => \App\Helper\HttpHelper::getRemoteAddr(), 'created_at' => time()]);
         DB::table('company')->where(['id' => $id])->increment('view_count');
         return $this->format($result);
     }
@@ -178,6 +181,10 @@ class CompanyLogic
 
     private function format($data)
     {
+        $tagIds = DB::table('company_tag_relation')->where(['company_id' => $data['id']])->pluck('tag_id')->toArray();
+        $categoryRows = DB::table('company_tag_relation')->where(['id' => $tagIds, 'type' => 1])->select('id', 'name_cn', 'name_en')->get()->toArray();
+        $tagRows = DB::table('company_tag_relation')->where(['id' => $tagIds, 'type' => 2])->select('id', 'name_cn', 'name_en')->get()->toArray();
+
         $result = [
             'id' => (int)$data['id'],
             'name_cn' => $data['name_cn'] ?? '',
@@ -186,9 +193,11 @@ class CompanyLogic
             'intro_en' => $data['intro_en'] ?? '',
             'home_page' => $data['home_page'] ?? '',
             'view_count' => $data['view_count'] ?? 0,
+            'status' => $data['status'] ?? 0,
             'created_at' => (int)($data['created_at'] ?? 0),
             'updated_at' => (int)($data['updated_at'] ?? 0),
-            'tag_ids' => $data['tag_ids'] ?? [],
+            'category_ids' => $categoryRows,
+            'tag_ids' => $tagRows,
         ];
 
         return $result;
