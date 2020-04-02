@@ -182,8 +182,8 @@ class CompanyLogic
     private function format($data)
     {
         $tagIds = DB::table('company_tag_relation')->where(['company_id' => $data['id']])->pluck('tag_id')->toArray();
-        $categoryRows = DB::table('company_tag_relation')->where(['id' => $tagIds, 'type' => 1])->select('id', 'name_cn', 'name_en')->get()->toArray();
-        $tagRows = DB::table('company_tag_relation')->where(['id' => $tagIds, 'type' => 2])->select('id', 'name_cn', 'name_en')->get()->toArray();
+        $categoryRows = DB::table('tag')->where(['id' => $tagIds, 'type' => 1])->select('id', 'name_cn', 'name_en')->get()->toArray();
+        $tagRows = DB::table('tag')->where(['id' => $tagIds, 'type' => 2])->select('id', 'name_cn', 'name_en')->get()->toArray();
 
         $result = [
             'id' => (int)$data['id'],
