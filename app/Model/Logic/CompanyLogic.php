@@ -29,7 +29,7 @@ class CompanyLogic
     public function items($params)
     {
         $result = initListResult($params);
-        $where = [];
+        $where = ['status' => 1];
         $tagIdArr = [];
         $catIdArr = [];
         if (isset($params['tag_ids']) && '' !== $params['tag_ids']) {
@@ -121,7 +121,7 @@ class CompanyLogic
     public function show($id)
     {
         $result = $this->companyDao->findOne(['id' => $id]);
-        if (!$result) {
+        if (!$result || $result['status'] != 1) {
             throw new \Exception('company_not_exist', 404);
         }
 
