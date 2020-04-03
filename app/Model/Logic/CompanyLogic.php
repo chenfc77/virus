@@ -91,13 +91,13 @@ class CompanyLogic
             'created_at' => time(),
         ];
 
-        $data['id'] = $this->companyDao->store($data);
+        //$data['id'] = $this->companyDao->store($data);
         $tagIds = [];
         if (isset($params['tag_ids']) && '' !== $params['tag_ids']) {
             $tagIds = array_filter(explode(',', $params['tag_ids']));
         }
         if (isset($params['category_ids']) && '' !== $params['category_ids']) {
-            $tagIds += array_filter(explode(',', $params['category_ids']));
+            $tagIds =array_merge($tagIds,array_filter(explode(',', $params['category_ids']))) ;
         }
 
         if (!empty($tagIds)) {
@@ -151,7 +151,7 @@ class CompanyLogic
             $tagIds = array_filter(explode(',', $params['tag_ids']));
         }
         if (isset($params['category_ids']) && '' !== $params['category_ids']) {
-            $tagIds += array_filter(explode(',', $params['category_ids']));
+            $tagIds =array_merge($tagIds,array_filter(explode(',', $params['category_ids']))) ;
         }
 
         if (!empty($tagIds)) {
