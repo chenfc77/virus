@@ -91,7 +91,7 @@ class CompanyLogic
             'created_at' => time(),
         ];
 
-        //$data['id'] = $this->companyDao->store($data);
+        $data['id'] = $this->companyDao->store($data);
         $tagIds = [];
         if (isset($params['tag_ids']) && '' !== $params['tag_ids']) {
             $tagIds = array_filter(explode(',', $params['tag_ids']));
