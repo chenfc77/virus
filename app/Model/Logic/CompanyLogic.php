@@ -29,7 +29,6 @@ class CompanyLogic
     public function items($params)
     {
         $result = initListResult($params);
-        $where = ['status' => 1];
         $tagIdArr = [];
         $catIdArr = [];
         if (isset($params['tag_ids']) && '' !== $params['tag_ids']) {
@@ -148,6 +147,7 @@ class CompanyLogic
         $data['intro_cn'] = $params['intro_cn'] ?? $result['intro_cn'];
         $data['intro_en'] = $params['intro_en'] ?? $result['intro_en'];
         $data['home_page'] = $params['home_page'] ?? $result['home_page'];
+        $data['status'] = $params['status'] ?? $result['status'];
 
         $this->companyDao->update($data, ['id' => $id]);
 
