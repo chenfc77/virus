@@ -64,6 +64,10 @@ class CompanyLogic
             ];
         }
 
+        if (isset($params['status']) && '' !== $params['status']) {
+            $where['status'] = $params['status'];
+        }
+
         $queryParams = [
             'page_num' => $result['page_num'],
             'page_size' => $result['page_size'],
@@ -97,7 +101,7 @@ class CompanyLogic
             $tagIds = array_filter(explode(',', $params['tag_ids']));
         }
         if (isset($params['category_ids']) && '' !== $params['category_ids']) {
-            $tagIds =array_merge($tagIds,array_filter(explode(',', $params['category_ids']))) ;
+            $tagIds = array_merge($tagIds, array_filter(explode(',', $params['category_ids'])));
         }
 
         if (!empty($tagIds)) {
@@ -125,8 +129,11 @@ class CompanyLogic
             throw new \Exception('company_not_exist', 404);
         }
 
-        DB::table('view_log')->insert(['company_id' => $id, 'ip' => \App\Helper\HttpHelper::getRemoteAddr(), 'created_at' => time()]);
-        DB::table('company')->where(['id' => $id])->increment('view_count');
+        if (!empty($params['is_admin'])) {
+            DB::table('view_log')->insert(['company_id' => $id, 'ip' => \App\Helper\HttpHelper::getRemoteAddr(), 'created_at' => time()]);
+            DB::table('company')->where(['id' => $id])->increment('view_count');
+        }
+
         return $this->format($result);
     }
 
@@ -151,7 +158,7 @@ class CompanyLogic
             $tagIds = array_filter(explode(',', $params['tag_ids']));
         }
         if (isset($params['category_ids']) && '' !== $params['category_ids']) {
-            $tagIds =array_merge($tagIds,array_filter(explode(',', $params['category_ids']))) ;
+            $tagIds = array_merge($tagIds, array_filter(explode(',', $params['category_ids'])));
         }
 
         if (!empty($tagIds)) {
