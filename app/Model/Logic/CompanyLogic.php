@@ -129,7 +129,7 @@ class CompanyLogic
             throw new \Exception('company_not_exist', 404);
         }
 
-        if (!empty($params['is_admin'])) {
+        if (empty($params['is_admin'])) {
             DB::table('view_log')->insert(['company_id' => $id, 'ip' => \App\Helper\HttpHelper::getRemoteAddr(), 'created_at' => time()]);
             DB::table('company')->where(['id' => $id])->increment('view_count');
         }
