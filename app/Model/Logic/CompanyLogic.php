@@ -31,6 +31,7 @@ class CompanyLogic
         $result = initListResult($params);
         $tagIdArr = [];
         $catIdArr = [];
+        $where = [];
         if (isset($params['tag_ids']) && '' !== $params['tag_ids']) {
             $tagIdArr = array_filter(explode(',', $params['tag_ids']));
         }
