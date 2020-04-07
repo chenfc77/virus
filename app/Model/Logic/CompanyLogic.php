@@ -32,24 +32,20 @@ class CompanyLogic
         $tagIdArr = [];
         $catIdArr = [];
         $where = [];
+        $trids = $crids = false;
         if (isset($params['tag_ids']) && '' !== $params['tag_ids']) {
             $tagIdArr = array_filter(explode(',', $params['tag_ids']));
+            $trids = DB::table('company_tag_relation')->where(['tag_id' => $tagIdArr])->pluck('company_id')->toArray();
         }
         if (isset($params['category_ids']) && '' !== $params['category_ids']) {
             $catIdArr = array_filter(explode(',', $params['category_ids']));
+            $crids = DB::table('company_tag_relation')->where(['tag_id' => $catIdArr])->pluck('company_id')->toArray();
+
         }
-        $tids = false;
-        if (!empty($tagIdArr) && !empty($catIdArr)) {
-            $tids = array_intersect($tagIdArr, $catIdArr);
-        } elseif (!empty($tagIdArr) && empty($catIdArr)) {
-            $tids = $tagIdArr;
-        } elseif (empty($tagIdArr) && !empty($catIdArr)) {
-            $tids = $catIdArr;
-        }
-        if ($tids !== false) {
-            $cids = DB::table('company_tag_relation')->where(['tag_id' => $tids])->pluck('company_id')->toArray();
-            if ($cids) {
-                $where['id'] = $cids;
+        if (is_array($trids) && is_array($crids)) {
+            $unionIds = array_intersect($trids, $crids);
+            if (!empty($unionIds)) {
+                $where['id'] = $unionIds;
             } else {
                 $where['id'] = -1;
             }
@@ -125,7 +121,7 @@ class CompanyLogic
     public function show($id)
     {
         $result = $this->companyDao->findOne(['id' => $id]);
-        if (!$result || $result['status'] != 1) {
+        if (!$result) {
             throw new \Exception('company_not_exist', 404);
         }
 
