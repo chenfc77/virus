@@ -49,6 +49,10 @@ class CompanyLogic
             } else {
                 $where['id'] = -1;
             }
+        }elseif(is_array($trids)){
+            $where['id'] = $trids;
+        }elseif(is_array($crids)){
+            $where['id'] = $crids;
         }
         $whereRow = [];
         if (isset($params['keyword']) && '' !== $params['keyword']) {
