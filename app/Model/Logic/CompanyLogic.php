@@ -40,7 +40,7 @@ class CompanyLogic
         if (isset($params['category_ids']) && '' !== $params['category_ids']) {
             $catIdArr = array_filter(explode(',', $params['category_ids']));
             $crids = DB::table('company_tag_relation')->where(['tag_id' => $catIdArr])->pluck('company_id')->toArray();
-
+            vdump($crids);
         }
         if (is_array($trids) && is_array($crids)) {
             $unionIds = array_intersect($trids, $crids);
@@ -49,10 +49,10 @@ class CompanyLogic
             } else {
                 $where['id'] = -1;
             }
-        }elseif(is_array($trids)){
-            $where['id'] = $trids;
-        }elseif(is_array($crids)){
-            $where['id'] = $crids;
+        } elseif (is_array($trids)) {
+            $where['id'] = empty($trids) ? -1 : $trids;
+        } elseif (is_array($crids)) {
+            $where['id'] = empty($crids) ? -1 : $crids;
         }
         $whereRow = [];
         if (isset($params['keyword']) && '' !== $params['keyword']) {
@@ -67,7 +67,7 @@ class CompanyLogic
         if (isset($params['status']) && '' !== $params['status']) {
             $where['status'] = $params['status'];
         }
-
+        vdump($where);
         $queryParams = [
             'page_num' => $result['page_num'],
             'page_size' => $result['page_size'],
